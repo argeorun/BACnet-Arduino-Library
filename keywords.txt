@@ -1,0 +1,72 @@
+#######################################
+# Syntax Coloring Map For BACnet-for-Arduino
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BACnetDevice	KEYWORD1
+BACnetBinaryValue	KEYWORD1
+BACnetAnalogValue	KEYWORD1
+BACnetBinaryOutput	KEYWORD1
+BACnetAnalogInput	KEYWORD1
+BACnetMultiStateValue	KEYWORD1
+BACnetRS485	KEYWORD1
+BACnetADC	KEYWORD1
+BACnetTimer	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+task	KEYWORD2
+process	KEYWORD2
+addObject	KEYWORD2
+removeObject	KEYWORD2
+setDeviceName	KEYWORD2
+setLocation	KEYWORD2
+setDescription	KEYWORD2
+setValue	KEYWORD2
+getValue	KEYWORD2
+setPresentValue	KEYWORD2
+getPresentValue	KEYWORD2
+setPin	KEYWORD2
+getPin	KEYWORD2
+enableCOV	KEYWORD2
+disableCOV	KEYWORD2
+setUnits	KEYWORD2
+getUnits	KEYWORD2
+setResolution	KEYWORD2
+setMinValue	KEYWORD2
+setMaxValue	KEYWORD2
+setPriority	KEYWORD2
+getPriority	KEYWORD2
+setRelinquish	KEYWORD2
+isObjectTypeAvailable	KEYWORD2
+printConfig	KEYWORD2
+printBACnetConfig	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+BOARD_TIER	LITERAL1
+BOARD_NAME	LITERAL1
+BOARD_RAM_KB	LITERAL1
+MAX_APDU	LITERAL1
+MAX_TSM_TRANSACTIONS	LITERAL1
+MAX_BACNET_OBJECTS	LITERAL1
+BACNET_OBJECT_BINARY_VALUE	LITERAL1
+BACNET_OBJECT_ANALOG_VALUE	LITERAL1
+BACNET_OBJECT_BINARY_OUTPUT	LITERAL1
+BACNET_OBJECT_ANALOG_INPUT	LITERAL1
+BACNET_FEATURE_COV	LITERAL1
+BACNET_FEATURE_PRIORITY_ARRAY	LITERAL1
+UNITS_DEGREES_CELSIUS	LITERAL1
+UNITS_DEGREES_FAHRENHEIT	LITERAL1
+UNITS_PERCENT	LITERAL1
+UNITS_VOLTS	LITERAL1
+UNITS_AMPERES	LITERAL1
+UNITS_WATTS	LITERAL1
