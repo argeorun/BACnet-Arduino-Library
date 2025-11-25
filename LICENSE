@@ -1,0 +1,99 @@
+BACnet for Arduino Library - Dual License
+
+This library consists of two main components with different licenses:
+
+================================================================================
+1. ARDUINO WRAPPER CODE (MIT License)
+================================================================================
+
+The Arduino wrapper code (all files in the root directory and src/ directory
+EXCEPT src/bacnet/) is licensed under the MIT License:
+
+MIT License
+
+Copyright (c) 2025 George Arun <argeorun@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+2. BACNET-STACK CODE (GNU General Public License v2 or later with exception)
+================================================================================
+
+The BACnet protocol stack code (all files in src/bacnet/) is derived from
+bacnet-stack (https://github.com/bacnet-stack/bacnet-stack) and is licensed
+under the GNU General Public License version 2 or any later version with a
+special exception for linking:
+
+Copyright (C) 2012 Steve Karg <skarg@users.sourceforge.net>
+Copyright (C) by the individual contributors listed in src/bacnet/ files
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to:
+The Free Software Foundation, Inc.
+59 Temple Place - Suite 330
+Boston, MA  02111-1307, USA.
+
+As a special exception, if other files instantiate templates or
+use macros or inline functions from this file, or you compile
+this file and link it with other works to produce a work based
+on this file, this file does not by itself cause the resulting
+work to be covered by the GNU General Public License. However
+the source code for this file must still be made available in
+accordance with section (3) of the GNU General Public License.
+
+This exception does not invalidate any other reasons why a work
+based on this file might be covered by the GNU General Public
+License.
+
+================================================================================
+LINKING EXCEPTION CLARIFICATION
+================================================================================
+
+The linking exception for the bacnet-stack code means:
+
+1. You CAN link proprietary/closed-source Arduino code with this library
+2. You MUST make the bacnet-stack source code (src/bacnet/) available
+3. You do NOT need to release your Arduino wrapper usage code under GPL
+4. Modifications to src/bacnet/ files must be released under GPL v2+
+
+This makes the library suitable for both open-source and commercial Arduino
+projects while ensuring the BACnet protocol stack remains open.
+
+================================================================================
+FULL GPL v2 TEXT
+================================================================================
+
+For the complete GNU General Public License version 2 text, visit:
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+================================================================================
+ATTRIBUTION
+================================================================================
+
+See NOTICE.txt for complete attribution and acknowledgments.

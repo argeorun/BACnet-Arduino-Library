@@ -1,7 +1,7 @@
 /*
  * BACnetRS485.cpp - RS-485 Hardware Abstraction Layer implementation
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  */
 

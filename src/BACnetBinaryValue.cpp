@@ -1,11 +1,13 @@
 /*
  * BACnetBinaryValue.cpp - Binary Value Object implementation
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  */
 
 #include "BACnetBinaryValue.h"
+
+#if BACNET_OBJECT_BINARY_VALUE
 
 // BACnet object type for Binary Value
 #define OBJECT_BINARY_VALUE 5
@@ -112,3 +114,5 @@ void BACnetBinaryValue::update() {
         readPin();
     }
 }
+
+#endif // BACNET_OBJECT_BINARY_VALUE

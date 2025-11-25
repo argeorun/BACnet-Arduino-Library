@@ -1,7 +1,7 @@
 /*
  * BACnetAnalogValue.h - Analog Value Object wrapper
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  * 
  * Analog Value objects represent numeric values with engineering units.
@@ -14,6 +14,9 @@
 #include <Arduino.h>
 #include "BACnetDevice.h"
 #include "BACnetConfig.h"
+
+// Only compile if Analog Value objects are enabled
+#if BACNET_OBJECT_ANALOG_VALUE
 
 // Common engineering units
 typedef enum {
@@ -174,5 +177,7 @@ private:
     unsigned long _last_cov_time;
 #endif
 };
+
+#endif // BACNET_OBJECT_ANALOG_VALUE
 
 #endif // BACNET_ANALOG_VALUE_H

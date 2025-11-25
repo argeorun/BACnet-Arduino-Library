@@ -2,7 +2,7 @@
  * BACnetConfig.h - Automatic Board Detection & Memory Configuration
  * Part of BACnet-for-Arduino library
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License (see LICENSE file)
  * 
  * This file provides automatic board detection and proportional memory scaling

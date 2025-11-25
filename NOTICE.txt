@@ -1,0 +1,136 @@
+BACnet for Arduino Library - Attribution and Acknowledgments
+
+================================================================================
+PRIMARY AUTHOR
+================================================================================
+
+BACnet for Arduino - Arduino Library Wrapper
+Copyright (c) 2025 George Arun <argeorun@gmail.com>
+
+The Arduino-specific wrapper code, hardware abstraction layer, and library
+infrastructure were created by George Arun to make BACnet protocol accessible
+to Arduino developers.
+
+================================================================================
+BACNET PROTOCOL STACK
+================================================================================
+
+This library incorporates the BACnet Protocol Stack (bacnet-stack) located in
+the src/bacnet/ directory:
+
+BACnet Protocol Stack
+Copyright (C) 2012 Steve Karg <skarg@users.sourceforge.net>
+Project: https://github.com/bacnet-stack/bacnet-stack
+License: GNU GPL v2 or later with linking exception
+
+The bacnet-stack project was created and is maintained by Steve Karg. It
+provides a complete, robust implementation of the BACnet protocol (ANSI/ASHRAE
+Standard 135) for building automation and control networks.
+
+================================================================================
+BACNET-STACK CONTRIBUTORS
+================================================================================
+
+The bacnet-stack project has received contributions from numerous developers
+worldwide. Major contributors include (but are not limited to):
+
+- Steve Karg (skarg@users.sourceforge.net) - Project creator and maintainer
+- Multiple contributors via SourceForge and GitHub
+
+For a complete list of contributors, see:
+https://github.com/bacnet-stack/bacnet-stack/graphs/contributors
+
+================================================================================
+BACNET STANDARD
+================================================================================
+
+BACnet® is a registered trademark of ASHRAE (American Society of Heating,
+Refrigerating and Air-Conditioning Engineers).
+
+The BACnet protocol is defined by ANSI/ASHRAE Standard 135.
+For more information: https://www.bacnet.org/
+
+================================================================================
+ARDUINO PLATFORM
+================================================================================
+
+This library is built for the Arduino platform and compatible boards.
+Arduino is a trademark of Arduino LLC.
+Website: https://www.arduino.cc/
+
+================================================================================
+THIRD-PARTY ACKNOWLEDGMENTS
+================================================================================
+
+RS-485 Hardware Support:
+- MAX485/MAX3485 transceivers (Maxim Integrated, now Analog Devices)
+- SN65HVD72 transceiver (Texas Instruments)
+- DFRobot RS485 Shield (DFR0259)
+- Various UART-to-RS485 converter modules
+
+Arduino Board Support:
+- Arduino (AVR architecture) - Arduino LLC
+- Arduino Due/Zero (SAM/SAMD architecture) - Arduino LLC
+- ESP32 (Espressif Systems)
+- STM32 (STMicroelectronics)
+- Teensy (PJRC)
+
+================================================================================
+DEVELOPMENT TOOLS
+================================================================================
+
+This library was developed and tested using:
+- Arduino IDE (https://www.arduino.cc/)
+- Visual Studio Code (https://code.visualstudio.com/)
+- YABE (Yet Another BACnet Explorer) - for BACnet testing
+  (https://sourceforge.net/projects/yetanotherbacnetexplorer/)
+
+================================================================================
+DOCUMENTATION REFERENCES
+================================================================================
+
+BACnet Protocol:
+- ANSI/ASHRAE Standard 135-2020
+- BACnet.org - Official BACnet website
+
+Arduino Documentation:
+- Arduino Language Reference
+- Arduino Library Specification 1.5
+
+bacnet-stack Documentation:
+- bacnet-stack GitHub Wiki
+- bacnet-stack API Documentation
+
+================================================================================
+SPECIAL THANKS
+================================================================================
+
+Special thanks to:
+
+1. Steve Karg and the bacnet-stack community for creating and maintaining
+   a high-quality, open-source BACnet protocol implementation.
+
+2. The Arduino team for providing an accessible embedded development platform
+   that makes building automation projects accessible to makers and engineers.
+
+3. The open-source community for tools, libraries, and contributions that
+   make projects like this possible.
+
+================================================================================
+CONTACT
+================================================================================
+
+For questions, bug reports, or contributions to the Arduino wrapper:
+- GitHub: https://github.com/argeorun/BACnet-Arduino-Library
+- Email: argeorun@gmail.com
+
+For questions about the BACnet protocol stack:
+- GitHub: https://github.com/bacnet-stack/bacnet-stack
+- Mailing List: bacnet-developers@lists.sourceforge.net
+
+================================================================================
+VERSION INFORMATION
+================================================================================
+
+BACnet for Arduino Library v1.0.0
+Date: November 2025

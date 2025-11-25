@@ -1,11 +1,13 @@
 /*
  * BACnetAnalogValue.cpp - Analog Value Object implementation
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  */
 
 #include "BACnetAnalogValue.h"
+
+#if BACNET_OBJECT_ANALOG_VALUE
 
 // BACnet object type for Analog Value
 #define OBJECT_ANALOG_VALUE 2
@@ -137,3 +139,5 @@ void BACnetAnalogValue::update() {
         readPin();
     }
 }
+
+#endif // BACNET_OBJECT_ANALOG_VALUE

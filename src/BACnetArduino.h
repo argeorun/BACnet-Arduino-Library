@@ -1,7 +1,7 @@
 /*
  * BACnetArduino.h - Main header for BACnet-for-Arduino library
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  * 
  * This is the main include file for users of the BACnet-for-Arduino library.
@@ -17,10 +17,17 @@
 #include <Arduino.h>
 #include "BACnetConfig.h"
 #include "BACnetDevice.h"
-#include "BACnetBinaryValue.h"
-#include "BACnetAnalogValue.h"
 
-// Optional objects (available on Tier 2+ boards)
+// Core objects (always available - Tier 1)
+#if BACNET_OBJECT_BINARY_VALUE
+#include "BACnetBinaryValue.h"
+#endif
+
+#if BACNET_OBJECT_ANALOG_VALUE
+#include "BACnetAnalogValue.h"
+#endif
+
+// Optional objects (Tier 2+ boards)
 #if BACNET_OBJECT_BINARY_OUTPUT
 #include "BACnetBinaryOutput.h"
 #endif

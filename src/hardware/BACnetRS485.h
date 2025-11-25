@@ -1,7 +1,7 @@
 /*
  * BACnetRS485.h - RS-485 Hardware Abstraction Layer
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  * 
  * Provides interface for RS-485 transceivers with optional DE/RE control.

@@ -1,7 +1,7 @@
 /*
  * BACnetBinaryValue.h - Binary Value Object wrapper
  * 
- * Copyright (c) 2025 Geo_Arun
+ * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
  * 
  * Binary Value objects represent two-state (on/off, active/inactive) values.
@@ -14,6 +14,9 @@
 #include <Arduino.h>
 #include "BACnetDevice.h"
 #include "BACnetConfig.h"
+
+// Only compile if Binary Value objects are enabled
+#if BACNET_OBJECT_BINARY_VALUE
 
 // Binary values
 typedef enum {
@@ -119,5 +122,7 @@ private:
     unsigned long _last_cov_time;
 #endif
 };
+
+#endif // BACNET_OBJECT_BINARY_VALUE
 
 #endif // BACNET_BINARY_VALUE_H
