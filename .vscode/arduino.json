@@ -1,5 +1,5 @@
 {
-    "sketch": "examples/01.Basic/BasicDevice/BasicDevice.ino",
+    "sketch": "examples/02.BinaryValue/BV_LED_Control/BV_LED_Control.ino",
     "configuration": "cpu=atmega2560",
     "board": "arduino:avr:mega",
     "output": "build"

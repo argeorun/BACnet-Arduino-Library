@@ -184,10 +184,15 @@
     // #define BACNET_MSTP_SERIAL Serial2  // Pins 16/17
     // #define BACNET_MSTP_SERIAL Serial3  // Pins 14/15
     
-    // RS485 Enable Pin - Default: D2
+    // RS485 Enable Pin Configuration (Applies to ALL Arduino boards)
     // ⚠️ VERIFY: Check your RS485 shield documentation!
+    //
+    // Set to -1 for auto-direction modules (no DE/RE control needed)
+    // Set to pin number (e.g., 2, 4, 8) for modules requiring manual DE/RE control
+    //
+    // Note: This setting is based on your RS485 module type, not the Arduino board
     #ifndef BACNET_RS485_ENABLE_PIN
-        #define BACNET_RS485_ENABLE_PIN 2  // Change to D4, D8, etc. if needed
+        #define BACNET_RS485_ENABLE_PIN -1  // Auto-direction module (no DE/RE)
     #endif
 
 //-----------------------------------------------------------------------------
