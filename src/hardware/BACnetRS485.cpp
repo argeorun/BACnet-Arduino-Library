@@ -3,6 +3,8 @@
  * 
  * Copyright (c) 2025 George Arun <argeorun@gmail.com>
  * Licensed under MIT License
+ * 
+ * Automatically configured from BACnetConfig.h for each supported board.
  */
 
 #include "BACnetRS485.h"
@@ -11,22 +13,46 @@
 HardwareSerial* BACnetRS485::_serial = nullptr;
 int8_t BACnetRS485::_enable_pin = -1;
 bool BACnetRS485::_auto_direction = false;
+uint32_t BACnetRS485::_baud_rate = 38400;
 
-void BACnetRS485::begin(HardwareSerial* serial_port, int8_t enable_pin, uint32_t baud_rate) {
-    _serial = serial_port;
-    _enable_pin = enable_pin;
-    _auto_direction = (enable_pin == -1);
+// Automatic configuration from BACnetConfig.h
+void BACnetRS485::begin(uint32_t baud_rate) {
+    _serial = &BACNET_MSTP_SERIAL;
+    _enable_pin = BACNET_RS485_ENABLE_PIN;
+    _auto_direction = (_enable_pin == -1);
+    _baud_rate = baud_rate;
     
     // Initialize serial port
-    if (_serial != nullptr) {
-        _serial->begin(baud_rate);
-    }
+    _serial->begin(baud_rate);
     
     // Configure DE/RE control pin if specified
     if (_enable_pin >= 0) {
         pinMode(_enable_pin, OUTPUT);
         setReceiveMode();  // Default to receive mode
     }
+    
+    // Print configuration (uses debug macros from BACnetConfig.h)
+    printConfiguration();
+}
+
+// Custom configuration (advanced users)
+void BACnetRS485::begin(HardwareSerial& serial_port, int8_t enable_pin, uint32_t baud_rate) {
+    _serial = &serial_port;
+    _enable_pin = enable_pin;
+    _auto_direction = (enable_pin == -1);
+    _baud_rate = baud_rate;
+    
+    // Initialize serial port
+    _serial->begin(baud_rate);
+    
+    // Configure DE/RE control pin if specified
+    if (_enable_pin >= 0) {
+        pinMode(_enable_pin, OUTPUT);
+        setReceiveMode();  // Default to receive mode
+    }
+    
+    BACNET_DEBUG_PRINTLN(F("BACnet RS485: Custom configuration"));
+    printConfiguration();
 }
 
 void BACnetRS485::setReceiveMode() {
@@ -97,25 +123,49 @@ void BACnetRS485::flush() {
     }
 }
 
-// Factory methods
-void BACnetRS485::beginMAX485(HardwareSerial* serial_port, int8_t enable_pin) {
-    begin(serial_port, enable_pin, 38400);
-}
-
-void BACnetRS485::beginAutoDirection(HardwareSerial* serial_port) {
-    begin(serial_port, -1, 38400);
-}
-
-void BACnetRS485::beginDFR0259Shield() {
-    // DFRobot DFR0259 shield uses:
-    // - Serial1 on Mega (pins 18/19)
-    // - Software Serial on Uno (configurable)
-    // - DE/RE control on pin 2
+void BACnetRS485::printConfiguration() {
+    BACNET_DEBUG_PRINTLN(F("=== RS485 Configuration ==="));
     
-    #if defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560)
-        begin(&Serial1, 2, 38400);
-    #else
-        // On Uno, use main Serial port
-        begin(&Serial, 2, 38400);
+    // Show which serial port
+    #if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
+        BACNET_DEBUG_PRINTLN(F("Serial: Serial (TX=D1, RX=D0)"));
+        BACNET_DEBUG_PRINTLN(F("⚠️  Uno: Debug output disabled"));
+    #elif defined(ARDUINO_AVR_MEGA2560)
+        #if defined(BACNET_MSTP_SERIAL)
+            if (_serial == &Serial) {
+                BACNET_DEBUG_PRINTLN(F("Serial: Serial (TX0/RX0)"));
+            } else if (_serial == &Serial1) {
+                BACNET_DEBUG_PRINTLN(F("Serial: Serial1 (TX1=D18, RX1=D19)"));
+            } else if (_serial == &Serial2) {
+                BACNET_DEBUG_PRINTLN(F("Serial: Serial2 (TX2=D16, RX2=D17)"));
+            } else if (_serial == &Serial3) {
+                BACNET_DEBUG_PRINTLN(F("Serial: Serial3 (TX3=D14, RX3=D15)"));
+            }
+        #endif
+    #elif defined(ARDUINO_SAM_DUE) || defined(ARDUINO_SAMD_ZERO)
+        BACNET_DEBUG_PRINTLN(F("Serial: Serial1 (TX1=D18, RX1=D19)"));
+    #elif defined(ARDUINO_ARCH_ESP32)
+        BACNET_DEBUG_PRINTLN(F("Serial: Serial1 (RX=GPIO16, TX=GPIO17)"));
+    #elif defined(ARDUINO_ARCH_STM32)
+        BACNET_DEBUG_PRINTLN(F("Serial: Serial1 (USART1)"));
     #endif
+    
+    // Show baud rate
+    BACNET_DEBUG_PRINT(F("Baud Rate: "));
+    BACNET_DEBUG_PRINTLN(_baud_rate);
+    
+    // Show DE/RE pin
+    if (_auto_direction) {
+        BACNET_DEBUG_PRINTLN(F("DE/RE Pin: Auto-direction (no control)"));
+    } else {
+        BACNET_DEBUG_PRINT(F("DE/RE Pin: "));
+        #if defined(ARDUINO_ARCH_STM32)
+            // STM32 uses PXn notation - can't print directly
+            BACNET_DEBUG_PRINTLN(F("(see BACnetConfig.h)"));
+        #else
+            BACNET_DEBUG_PRINTLN(_enable_pin);
+        #endif
+    }
+    
+    BACNET_DEBUG_PRINTLN(F("==========================="));
 }

@@ -42,9 +42,7 @@ void BACnetDevice::begin() {
         return;  // Already initialized
     }
     
-    #if BACNET_DEBUG
-    Serial.println(F("Initializing BACnet Device..."));
-    #endif
+    BACNET_DEBUG_PRINTLN(F("Initializing BACnet Device..."));
     
     // Initialize the BACnet protocol stack
     initializeStack();
@@ -53,10 +51,9 @@ void BACnetDevice::begin() {
     
     _initialized = true;
     
-    #if BACNET_DEBUG
     printConfig();
-    Serial.println(F("BACnet Device Ready!"));
-    #endif
+    BACNET_DEBUG_PRINTLN(F("BACnet Device Ready!"));
+
 }
 
 void BACnetDevice::task() {
@@ -85,21 +82,17 @@ bool BACnetDevice::addObject(BACnetObject* object) {
     }
     
     if (_object_count >= MAX_BACNET_OBJECTS) {
-        #if BACNET_DEBUG
-        Serial.println(F("ERROR: Maximum object count reached"));
-        #endif
+        BACNET_DEBUG_PRINTLN(F("ERROR: Maximum object count reached"));
         return false;
     }
     
     _objects[_object_count++] = object;
     
-    #if BACNET_DEBUG
-    Serial.print(F("Added object: "));
-    Serial.print(object->getName());
-    Serial.print(F(" (Instance: "));
-    Serial.print(object->getInstance());
-    Serial.println(F(")"));
-    #endif
+    BACNET_DEBUG_PRINT(F("Added object: "));
+    BACNET_DEBUG_PRINT(object->getName());
+    BACNET_DEBUG_PRINT(F(" (Instance: "));
+    BACNET_DEBUG_PRINT(object->getInstance());
+    BACNET_DEBUG_PRINTLN(F(")"));
     
     return true;
 }
@@ -144,20 +137,21 @@ void BACnetDevice::setDescription(const char* description) {
     }
 }
 
-void BACnetDevice::printConfig() {
+void BACnetDevice::printConfig() const {
     printBACnetConfig();  // From BACnetConfig.h
     
-    Serial.println(F("Device Configuration:"));
-    Serial.print(F("  MAC Address: "));
-    Serial.println(_mac_address);
-    Serial.print(F("  Device Instance: "));
-    Serial.println(_device_instance);
-    Serial.print(F("  Baud Rate: "));
-    Serial.println(_baud_rate);
-    Serial.print(F("  Objects: "));
-    Serial.print(_object_count);
-    Serial.print(F("/"));
-    Serial.println(MAX_BACNET_OBJECTS);
+    BACNET_DEBUG_PRINTLN(F("=== BACnet Device Configuration ===\"));
+    BACNET_DEBUG_PRINT(F("  MAC Address: "));
+    BACNET_DEBUG_PRINTLN(_mac_address);
+    BACNET_DEBUG_PRINT(F("  Device Instance: "));
+    BACNET_DEBUG_PRINTLN(_device_instance);
+    BACNET_DEBUG_PRINT(F("  Baud Rate: "));
+    BACNET_DEBUG_PRINTLN(_baud_rate);
+    BACNET_DEBUG_PRINT(F("  Objects: "));
+    BACNET_DEBUG_PRINT(_object_count);
+    BACNET_DEBUG_PRINT(F("/"));
+    BACNET_DEBUG_PRINTLN(MAX_BACNET_OBJECTS);
+    BACNET_DEBUG_PRINTLN(F("===================================\"));
 }
 
 bool BACnetDevice::isObjectTypeAvailable(uint16_t object_type) {

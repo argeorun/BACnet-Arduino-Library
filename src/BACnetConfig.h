@@ -115,6 +115,229 @@
 #define BACNET_DATALINK_MAX_APDU MAX_APDU
 
 /*=============================================================================
+ * SERIAL PORT CONFIGURATION - Easy Configuration Section
+ * 
+ * ⚠️ IMPORTANT: Verify pin numbers match YOUR specific board variant!
+ * Default values work for most common boards, but some variants differ.
+ * 
+ * 🔧 TO CUSTOMIZE:
+ * 1. Find your board section below
+ * 2. Uncomment and edit the #define lines
+ * 3. Verify pins against your board pinout diagram
+ * 4. Save and recompile
+ * 
+ * 💡 If unsure, leave defaults - they work for standard boards
+ *============================================================================*/
+
+//-----------------------------------------------------------------------------
+// ARDUINO UNO / NANO (Tier 1) - Only ONE hardware serial
+//-----------------------------------------------------------------------------
+#if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
+    
+    // ⚠️ UNO LIMITATION: Only Serial (TX=D1, RX=D0) available
+    // BACnet MS/TP MUST use Serial - debug output DISABLED during operation
+    
+    #define BACNET_MSTP_SERIAL Serial
+    #define BACNET_DEBUG_ENABLED 0  // Disabled - no second serial port
+    
+    // 🔧 OPTIONAL: Enable SoftwareSerial for debugging (uses more RAM ~100 bytes)
+    // Uncomment to use SoftwareSerial for debug on D10(RX)/D11(TX)
+    // #define BACNET_USE_SOFTWARE_SERIAL_DEBUG 1
+    // #define BACNET_SOFTSERIAL_RX_PIN 10
+    // #define BACNET_SOFTSERIAL_TX_PIN 11
+    
+    // RS485 Enable Pin (DE/RE control for MAX485)
+    // Default: D2 - ⚠️ Verify matches your shield!
+    // Common options: D2, D4, D8
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN 2  // Change if your shield uses different pin
+    #endif
+    
+    // For auto-direction modules (no DE/RE control), set to -1:
+    // #define BACNET_RS485_ENABLE_PIN -1
+
+//-----------------------------------------------------------------------------
+// ARDUINO MEGA 2560 (Tier 2) - Four hardware serials
+//-----------------------------------------------------------------------------
+#elif defined(ARDUINO_AVR_MEGA2560)
+    
+    // Default Configuration:
+    //   Serial  = USB Debug (TX0/RX0 = pins 1/0)
+    //   Serial1 = BACnet MS/TP (TX1/RX1 = pins 18/19) ⚠️ VERIFY YOUR BOARD!
+    //   Serial2 = Available (TX2/RX2 = pins 16/17)
+    //   Serial3 = Available (TX3/RX3 = pins 14/15)
+    
+    #ifndef BACNET_DEBUG_SERIAL
+        #define BACNET_DEBUG_SERIAL Serial   // USB Debug
+    #endif
+    #define BACNET_DEBUG_ENABLED 1
+    
+    #ifndef BACNET_MSTP_SERIAL
+        #define BACNET_MSTP_SERIAL Serial1   // BACnet on Serial1 (pins 18/19)
+    #endif
+    
+    // 🔧 TO SWAP: Uncomment to use Serial for BACnet, Serial1 for Debug
+    // #define BACNET_DEBUG_SERIAL Serial1
+    // #define BACNET_MSTP_SERIAL Serial
+    
+    // 🔧 TO USE Serial2 or Serial3:
+    // #define BACNET_MSTP_SERIAL Serial2  // Pins 16/17
+    // #define BACNET_MSTP_SERIAL Serial3  // Pins 14/15
+    
+    // RS485 Enable Pin - Default: D2
+    // ⚠️ VERIFY: Check your RS485 shield documentation!
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN 2  // Change to D4, D8, etc. if needed
+    #endif
+
+//-----------------------------------------------------------------------------
+// ARDUINO DUE / ZERO (Tier 3) - Multiple serials
+//-----------------------------------------------------------------------------
+#elif defined(ARDUINO_SAM_DUE) || defined(ARDUINO_SAMD_ZERO)
+    
+    // Default Configuration:
+    //   SerialUSB = USB Debug (Native USB port)
+    //   Serial1   = BACnet MS/TP (TX1/RX1 = pins 18/19) ⚠️ VERIFY!
+    
+    #ifndef BACNET_DEBUG_SERIAL
+        #define BACNET_DEBUG_SERIAL SerialUSB
+    #endif
+    #define BACNET_DEBUG_ENABLED 1
+    
+    #ifndef BACNET_MSTP_SERIAL
+        #define BACNET_MSTP_SERIAL Serial1
+    #endif
+    
+    // RS485 Enable Pin - Default: D2
+    // ⚠️ Due/Zero: 3.3V logic! Ensure RS485 module is 3.3V compatible
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN 2
+    #endif
+
+//-----------------------------------------------------------------------------
+// ESP32 (Tier 4) - Multiple UARTs with flexible pin assignment
+//-----------------------------------------------------------------------------
+#elif defined(ARDUINO_ARCH_ESP32)
+    
+    // Default Configuration:
+    //   Serial  = USB Debug (USB CDC)
+    //   Serial1 = BACnet MS/TP (default RX=GPIO16, TX=GPIO17)
+    //   Serial2 = Available
+    
+    #ifndef BACNET_DEBUG_SERIAL
+        #define BACNET_DEBUG_SERIAL Serial
+    #endif
+    #define BACNET_DEBUG_ENABLED 1
+    
+    #ifndef BACNET_MSTP_SERIAL
+        #define BACNET_MSTP_SERIAL Serial1
+    #endif
+    
+    // 🔧 ESP32 Custom Serial Pins (optional)
+    // Default Serial1: RX=16, TX=17 (can be changed in sketch with Serial1.begin())
+    // #define BACNET_ESP32_RX_PIN 16
+    // #define BACNET_ESP32_TX_PIN 17
+    
+    // RS485 Enable Pin - Default: GPIO4
+    // ⚠️ ESP32: Verify pin doesn't conflict with strapping pins!
+    // Avoid: GPIO0, GPIO2, GPIO5, GPIO12, GPIO15 (boot mode pins)
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN 4  // Safe default for most ESP32 boards
+    #endif
+
+//-----------------------------------------------------------------------------
+// STM32 (Tier 4) - USART configuration varies by board
+//-----------------------------------------------------------------------------
+#elif defined(ARDUINO_ARCH_STM32)
+    
+    // Default Configuration:
+    //   Serial  = USB Debug (via ST-Link or USB CDC)
+    //   Serial1 = USART1 for BACnet
+    // 
+    // ⚠️ CRITICAL: STM32 pin mapping varies significantly between boards!
+    // Common boards:
+    //   - Blue Pill (STM32F103C8):  USART1 = PA9(TX), PA10(RX)
+    //   - Black Pill (STM32F411CE): USART1 = PA9(TX), PA10(RX)
+    //   - Nucleo boards: Check your specific board pinout!
+    
+    #ifndef BACNET_DEBUG_SERIAL
+        #define BACNET_DEBUG_SERIAL Serial
+    #endif
+    #define BACNET_DEBUG_ENABLED 1
+    
+    #ifndef BACNET_MSTP_SERIAL
+        #define BACNET_MSTP_SERIAL Serial1  // USART1
+    #endif
+    
+    // 🔧 TO USE USART2 or USART3:
+    // #define BACNET_MSTP_SERIAL Serial2  // USART2 (check pins!)
+    // #define BACNET_MSTP_SERIAL Serial3  // USART3 (check pins!)
+    
+    // RS485 Enable Pin - Default: PA1
+    // ⚠️ VERIFY: STM32 pin names use PXn format (e.g., PA1, PB5, PC13)
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN PA1  // Change to match your wiring
+    #endif
+
+//-----------------------------------------------------------------------------
+// Generic AVR fallback
+//-----------------------------------------------------------------------------
+#elif defined(__AVR__)
+    // Assume Uno-like configuration for unknown AVR boards
+    #define BACNET_MSTP_SERIAL Serial
+    #define BACNET_DEBUG_ENABLED 0
+    #ifndef BACNET_RS485_ENABLE_PIN
+        #define BACNET_RS485_ENABLE_PIN 2
+    #endif
+    #warning "Unknown AVR board - using Uno-like serial configuration. Verify pins!"
+
+//-----------------------------------------------------------------------------
+// Unknown board
+//-----------------------------------------------------------------------------
+#else
+    #error "Unknown board! Please configure serial ports manually in BACnetConfig.h"
+#endif
+
+//-----------------------------------------------------------------------------
+// Debug Helper Macros - Automatically handles enabled/disabled state
+//-----------------------------------------------------------------------------
+#if BACNET_DEBUG_ENABLED
+    #define BACNET_DEBUG_BEGIN(baud) BACNET_DEBUG_SERIAL.begin(baud)
+    #define BACNET_DEBUG_PRINT(x) BACNET_DEBUG_SERIAL.print(x)
+    #define BACNET_DEBUG_PRINTLN(x) BACNET_DEBUG_SERIAL.println(x)
+    #if defined(ARDUINO_ARCH_ESP32)
+        #define BACNET_DEBUG_PRINTF(...) BACNET_DEBUG_SERIAL.printf(__VA_ARGS__)
+    #else
+        #define BACNET_DEBUG_PRINTF(...)  // Printf not available on AVR
+    #endif
+#else
+    #define BACNET_DEBUG_BEGIN(baud)
+    #define BACNET_DEBUG_PRINT(x)
+    #define BACNET_DEBUG_PRINTLN(x)
+    #define BACNET_DEBUG_PRINTF(...)
+#endif
+
+//-----------------------------------------------------------------------------
+// Configuration Validation (Compile-time error checking)
+//-----------------------------------------------------------------------------
+#if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
+    // Check if user accidentally enabled debug on Serial for Uno
+    #if defined(BACNET_DEBUG_SERIAL) && !defined(BACNET_USE_SOFTWARE_SERIAL_DEBUG)
+        // This is expected - debug disabled on Uno
+    #endif
+#endif
+
+// Validate RS485 enable pin is defined
+#ifndef BACNET_RS485_ENABLE_PIN
+    #error "BACNET_RS485_ENABLE_PIN not defined! Check BACnetConfig.h serial configuration."
+#endif
+
+// Validate MS/TP serial is defined
+#ifndef BACNET_MSTP_SERIAL
+    #error "BACNET_MSTP_SERIAL not defined! Check BACnetConfig.h serial configuration."
+#endif
+
+/*=============================================================================
  * TIER-BASED OBJECT TYPE ENABLEMENT
  *============================================================================*/
 

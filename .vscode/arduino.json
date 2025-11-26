@@ -1,0 +1,6 @@
+{
+    "sketch": "examples/01.Basic/BasicDevice/BasicDevice.ino",
+    "configuration": "cpu=atmega2560",
+    "board": "arduino:avr:mega",
+    "output": "build"
+}
